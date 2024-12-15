@@ -1,4 +1,5 @@
-﻿using SimpleAnilist.Services;
+﻿using SimpleAnilist.AnilistAPI.Enum;
+using SimpleAnilist.Services;
 
 class Program
 {

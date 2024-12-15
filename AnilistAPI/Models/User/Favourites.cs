@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SimpleAnilist.Models.User
 {
-    public class UserFavourites
+    public class Favourites
     {
         public UserAnimeFavourites? anime { get; set; }
         public UserMangaFavourites? manga { get; set; }

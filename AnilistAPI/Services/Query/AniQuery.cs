@@ -53,6 +53,12 @@ namespace SimpleAnilist.Services.Query
                     timeUntilAiring
                   }
                 }
+                trailer{
+                    id,
+                    site,
+                    thumbnail
+                }
+                favourites
             }
         }";
         public const string AnimeNameQuery =
@@ -100,6 +106,12 @@ namespace SimpleAnilist.Services.Query
                     timeUntilAiring
                   }
                 }
+                trailer{
+                    id,
+                    site,
+                    thumbnail
+                }
+                favourites
             }
         }";
         public const string MangaIDQuery = @"
@@ -202,6 +214,7 @@ namespace SimpleAnilist.Services.Query
     			  }
                   gender
                   siteUrl
+                  favourites
               }
         }";
         public const string StaffSearchQuery =
@@ -219,9 +232,9 @@ namespace SimpleAnilist.Services.Query
               }
               description(asHtml: $asHtml)
               siteUrl
-    		  primaryOccupations
     		  gender
-    		 homeTown
+    		  homeTown
+              favourites
             }
         }";
         public const string StudioSearchQuery =
@@ -229,6 +242,7 @@ namespace SimpleAnilist.Services.Query
             Studio(search: $search) {
                name 
                siteUrl
+               favourites
            }
         }";
         public const string UserSearchQuery =
