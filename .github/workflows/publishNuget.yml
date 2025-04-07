@@ -24,23 +24,37 @@ jobs:
         echo "Tag name: $TAG_NAME"
         
         IFS='.' read -r MAJOR MINOR PATCH <<< "${TAG_NAME:1}"  
-        echo "Current version: $MAJOR.$MINOR.$PATCH"
+        echo "Current version from tag: $MAJOR.$MINOR.$PATCH"
         
         PATCH=$((PATCH + 1))
         NEW_VERSION="$MAJOR.$MINOR.$PATCH"
         echo "New version: $NEW_VERSION"
         echo "VERSION=$NEW_VERSION" >> $GITHUB_ENV
 
-    - name: Update version in cs-anilist.csproj
+    - name: Check and Update version in cs-anilist.csproj
       run: |
+        TAG_NAME="${GITHUB_REF##*/}"  
+        echo "Tag name: $TAG_NAME"
+        
+        IFS='.' read -r MAJOR MINOR PATCH <<< "${TAG_NAME:1}"  
+        echo "Current version from tag: $MAJOR.$MINOR.$PATCH"
         FILE="cs-anilist.csproj"
-        sed -i "s|<Version>.*</Version>|<Version>$NEW_VERSION</Version>|" "$FILE"
-        git config --global user.email "actions@github.com"
-        git config --global user.name "GitHub Actions"
-        git checkout -b update-version
-        git add cs-anilist.csproj
-        git commit -m "🔖 Auto bump version to $NEW_VERSION"
-        git push origin update-version
+        
+        CURRENT_VERSION=$(grep -oPm1 "(?<=<Version>)[^<]+" "$FILE")
+        echo "Current version in cs-anilist.csproj: $CURRENT_VERSION"
+        
+        if [[ "$CURRENT_VERSION" != "$MAJOR.$MINOR.$PATCH" ]]; then
+          echo "Version mismatch, updating version in cs-anilist.csproj..."
+          sed -i "s|<Version>.*</Version>|<Version>$MAJOR.$MINOR.$PATCH</Version>|" "$FILE"
+          git config --global user.email "actions@github.com"
+          git config --global user.name "GitHub Actions"
+          git checkout -b update-version
+          git add cs-anilist.csproj
+          git commit -m "Auto bump version .csproj file to $MAJOR.$MINOR.$PATCH"
+          git push origin update-version
+        else
+          echo "Version already up-to-date, no update needed."
+        fi
 
     - name: Create pull request
       run: |
