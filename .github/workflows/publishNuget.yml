@@ -20,7 +20,7 @@ jobs:
     - name: Read current version & commit message
       id: version
       run: |
-        FILE="Directory.Build.props"
+        FILE="cs-anilist.csproj"
 
         CURRENT_VERSION=$(grep -oPm1 "(?<=<Version>)[^<]+" "$FILE")
         echo "Current version: $CURRENT_VERSION"
