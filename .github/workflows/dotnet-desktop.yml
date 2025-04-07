@@ -1,0 +1,78 @@
+name: Auto Publish NuGet
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Setup .NET 9
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: '9.0.x'
+
+    - name: Read current version & commit message
+      id: version
+      run: |
+        FILE="Directory.Build.props"
+
+        CURRENT_VERSION=$(grep -oPm1 "(?<=<Version>)[^<]+" "$FILE")
+        echo "Current version: $CURRENT_VERSION"
+
+        COMMIT_MSG=$(git log -1 --pretty=%B)
+        echo "Commit message: $COMMIT_MSG"
+
+        IFS='.' read -r MAJOR MINOR PATCH <<< "$CURRENT_VERSION"
+
+        if [[ "$COMMIT_MSG" == *"breaking change"* ]]; then
+          MAJOR=$((MAJOR + 1))
+          MINOR=0
+          PATCH=0
+        elif [[ "$COMMIT_MSG" == *"feat"* || "$COMMIT_MSG" == *"perf"* ]]; then
+          MINOR=$((MINOR + 1))
+          PATCH=0
+        elif [[ "$COMMIT_MSG" == *"fix"* ]]; then
+          PATCH=$((PATCH + 1))
+        elif [[ "$COMMIT_MSG" == *"docs"* || "$COMMIT_MSG" == *"style"* || "$COMMIT_MSG" == *"test"* || "$COMMIT_MSG" == *"chore"* || "$COMMIT_MSG" == *"refactor"* ]]; then
+          echo "No version bump for $COMMIT_MSG commit."
+          echo "VERSION=" >> $GITHUB_ENV
+          exit 0
+        else
+          PATCH=$((PATCH + 1))
+        fi
+
+        NEW_VERSION="$MAJOR.$MINOR.$PATCH"
+        echo "New version: $NEW_VERSION"
+        echo "VERSION=$NEW_VERSION" >> $GITHUB_ENV
+        sed -i "s|<Version>.*</Version>|<Version>$NEW_VERSION</Version>|" "$FILE"
+
+    - name: Commit new version
+      if: env.VERSION != ''
+      run: |
+        git config --global user.email "actions@github.com"
+        git config --global user.name "GitHub Actions"
+        git add Directory.Build.props
+        git commit -m "🔖 Auto bump version to $VERSION"
+        git push
+
+    - name: Restore
+      if: env.VERSION != ''
+      run: dotnet restore
+
+    - name: Build
+      if: env.VERSION != ''
+      run: dotnet build --configuration Release --no-restore
+
+    - name: Pack
+      if: env.VERSION != ''
+      run: dotnet pack --configuration Release --no-build -o ./nupkgs
+
+    - name: Push to NuGet
+      if: env.VERSION != ''
+      run: dotnet nuget push ./nupkgs/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json
