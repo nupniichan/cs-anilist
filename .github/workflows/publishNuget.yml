@@ -21,7 +21,7 @@ jobs:
       id: version
       run: |
         FILE="cs-anilist.csproj"
-
+        
         CURRENT_VERSION=$(grep -oPm1 "(?<=<Version>)[^<]+" "$FILE")
         echo "Current version: $CURRENT_VERSION"
 
@@ -52,27 +52,23 @@ jobs:
         echo "VERSION=$NEW_VERSION" >> $GITHUB_ENV
         sed -i "s|<Version>.*</Version>|<Version>$NEW_VERSION</Version>|" "$FILE"
 
-    - name: Commit new version
-      if: env.VERSION != ''
+    - name: Commit new version and create a pull request
       run: |
         git config --global user.email "actions@github.com"
         git config --global user.name "GitHub Actions"
+        git checkout -b update-version
         git add cs-anilist.csproj
-        git commit -m "🔖 Auto bump version to $VERSION"
-        git push
+        git commit -m "🔖 Auto bump version to $NEW_VERSION"
+        git push origin update-version
+        curl -X POST -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+          -d '{"title":"Auto bump version to '$NEW_VERSION'","head":"update-version","base":"main"}' \
+          https://api.github.com/repos/${{ github.repository }}/pulls
 
-    - name: Restore
-      if: env.VERSION != ''
-      run: dotnet restore
-
-    - name: Build
-      if: env.VERSION != ''
-      run: dotnet build --configuration Release --no-restore
-
-    - name: Pack
-      if: env.VERSION != ''
-      run: dotnet pack --configuration Release --no-build -o ./nupkgs
+    - name: Build & Pack
+      run: |
+        dotnet restore
+        dotnet build --configuration Release --no-restore
+        dotnet pack --configuration Release --no-build -o ./nupkgs
 
     - name: Push to NuGet
-      if: env.VERSION != ''
       run: dotnet nuget push ./nupkgs/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json
