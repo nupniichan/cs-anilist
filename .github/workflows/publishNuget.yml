@@ -57,7 +57,7 @@ jobs:
       run: |
         git config --global user.email "actions@github.com"
         git config --global user.name "GitHub Actions"
-        git add Directory.Build.props
+        git add cs-anilist.csproj
         git commit -m "🔖 Auto bump version to $VERSION"
         git push
 
