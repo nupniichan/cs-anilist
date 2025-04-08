@@ -58,8 +58,9 @@ jobs:
 
     - name: Create pull request
       run: |
+        TAG_NAME="${GITHUB_REF##*/}"
         curl -X POST -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-          -d '{"title":"Auto bump version to '$NEW_VERSION'","head":"update-version","base":"main"}' \
+          -d '{"title":"Auto bump version to '"$TAG_NAME"'","head":"update-version","base":"main"}' \
           https://api.github.com/repos/${{ github.repository }}/pulls
 
     - name: Build & Pack
