@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SimpleAnilist.AnilistAPI.Enum
+namespace CsAnilist.AnilistAPI.Enum
 {
     public enum MediaStatus
     {

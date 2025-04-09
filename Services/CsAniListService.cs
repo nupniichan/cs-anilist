@@ -1,18 +1,18 @@
-﻿using SimpleAnilist.AnilistAPI.Enum;
-using SimpleAnilist.Models.Character;
-using SimpleAnilist.Models.Media;
-using SimpleAnilist.Models.Staff;
-using SimpleAnilist.Models.Studio;
-using SimpleAnilist.Models.User;
-using SimpleAnilist.Services.Query;
+﻿using CsAnilist.AnilistAPI.Enum;
+using CsAnilist.Models.Character;
+using CsAnilist.Models.Media;
+using CsAnilist.Models.Staff;
+using CsAnilist.Models.Studio;
+using CsAnilist.Models.User;
+using CsAnilist.Services.Query;
 
-namespace SimpleAnilist.Services
+namespace CsAnilist.Services
 {
-    public class SimpleAniListService
+    public class CsAniListService
     {
         private readonly GraphQLAnilist _apiClient;
 
-        public SimpleAniListService()
+        public CsAniListService()
         {
             _apiClient = new GraphQLAnilist();
         }

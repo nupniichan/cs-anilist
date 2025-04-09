@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SimpleAnilist.Models.Character
+namespace CsAnilist.Models.Character
 {
     public class CharacterName
     {

@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using SimpleAnilist.AnilistAPI.Enum;
-using SimpleAnilist.Models.Enums;
+using CsAnilist.AnilistAPI.Enum;
+using CsAnilist.Models.Enums;
 
-namespace SimpleAnilist.Models.Media
+namespace CsAnilist.Models.Media
 {
     public class AniMedia
     {

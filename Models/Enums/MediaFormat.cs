@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SimpleAnilist.Models.Enums
+namespace CsAnilist.Models.Enums
 {
     public enum MediaFormat
     {

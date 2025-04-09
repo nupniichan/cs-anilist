@@ -2,11 +2,11 @@
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
-using SimpleAnilist.Models.Character;
-using SimpleAnilist.Models.Media;
-using SimpleAnilist.Models.Staff;
-using SimpleAnilist.Models.Studio;
-using SimpleAnilist.Models.User;
+using CsAnilist.Models.Character;
+using CsAnilist.Models.Media;
+using CsAnilist.Models.Staff;
+using CsAnilist.Models.Studio;
+using CsAnilist.Models.User;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 

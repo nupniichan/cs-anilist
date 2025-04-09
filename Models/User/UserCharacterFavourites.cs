@@ -1,6 +1,6 @@
-﻿using SimpleAnilist.Models.Character;
+﻿using CsAnilist.Models.Character;
 
-namespace SimpleAnilist.Models.User
+namespace CsAnilist.Models.User
 {
     public class UserCharacterFavourites
     {

@@ -1,11 +1,11 @@
-﻿using SimpleAnilist.AnilistAPI;
+﻿using CsAnilist.AnilistAPI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SimpleAnilist.Models.User
+namespace CsAnilist.Models.User
 {
     public class Favourites
     {

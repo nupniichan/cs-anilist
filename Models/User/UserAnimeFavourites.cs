@@ -1,6 +1,6 @@
-﻿using SimpleAnilist.Models.Media;
+﻿using CsAnilist.Models.Media;
 
-namespace SimpleAnilist.Models.User
+namespace CsAnilist.Models.User
 {
     public class UserAnimeFavourites
     {

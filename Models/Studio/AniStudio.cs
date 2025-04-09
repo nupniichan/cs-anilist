@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SimpleAnilist.Models.Studio
+namespace CsAnilist.Models.Studio
 {
     public class AniStudio
     {

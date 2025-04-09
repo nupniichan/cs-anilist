@@ -1,5 +1,5 @@
-﻿using SimpleAnilist.Models.Studio;
-namespace SimpleAnilist.Models.User
+﻿using CsAnilist.Models.Studio;
+namespace CsAnilist.Models.User
 {
     public class UserStudioFavourites
     {

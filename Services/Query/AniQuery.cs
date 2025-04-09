@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SimpleAnilist.Services.Query
+namespace CsAnilist.Services.Query
 {
     public static class AniQuery
     {

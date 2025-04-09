@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SimpleAnilist.Models.Staff
+namespace CsAnilist.Models.Staff
 {
     public class StaffName
     {
