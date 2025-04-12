@@ -32,6 +32,8 @@
                 coverImage {
                     large
                     medium
+                    extraLarge
+                    color
                 }
                 bannerImage
                 averageScore
@@ -85,6 +87,8 @@
                 coverImage {
                     large
                     medium
+                    extraLarge
+                    color
                 }
                 bannerImage
                 averageScore
@@ -137,6 +141,8 @@
                 coverImage {
                     large
                     medium
+                    extraLarge
+                    color
                 }
                 bannerImage
                 averageScore
@@ -177,6 +183,8 @@
                 coverImage {
                     large
                     medium
+                    extraLarge
+                    color
                 }
                 bannerImage
                 averageScore
