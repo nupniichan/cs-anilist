@@ -54,14 +54,14 @@ namespace CsAnilist.Services
             return await ExecuteQueryAsync(query, variables, _apiClient.GetMediaAsync);
         }
 
-        public async Task<AniMedia> SearchMediaByNameAsync(string name, MediaType mediaType)
+        public async Task<AniMedia> SearchMediaByNameAsync(string name, MediaType mediaType, bool descriptionAsHtml = true)
         {
             string query = mediaType == MediaType.ANIME ? AniQuery.AnimeNameQuery : AniQuery.MangaNameQuery;
             var variables = new
             {
                 search = name,
                 type = Enum.GetName(typeof(MediaType), mediaType),
-                asHtml = true
+                asHtml = descriptionAsHtml
             };
 
             return await ExecuteQueryAsync(query, variables, _apiClient.GetMediaAsync);
