@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using CsAnilist.AnilistAPI.Enum;
+﻿using CsAnilist.AnilistAPI.Enum;
 using CsAnilist.Models.Enums;
 
 namespace CsAnilist.Models.Media

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace CsAnilist.Models.Studio
+﻿namespace CsAnilist.Models.Studio
 {
     public class AniStudio
     {

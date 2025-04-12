@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace CsAnilist.Services.Query
+﻿namespace CsAnilist.Services.Query
 {
     public static class AniQuery
     {
@@ -38,6 +32,8 @@ namespace CsAnilist.Services.Query
                 coverImage {
                     large
                     medium
+                    extraLarge
+                    color
                 }
                 bannerImage
                 averageScore
@@ -91,6 +87,8 @@ namespace CsAnilist.Services.Query
                 coverImage {
                     large
                     medium
+                    extraLarge
+                    color
                 }
                 bannerImage
                 averageScore
@@ -143,6 +141,8 @@ namespace CsAnilist.Services.Query
                 coverImage {
                     large
                     medium
+                    extraLarge
+                    color
                 }
                 bannerImage
                 averageScore
@@ -183,6 +183,8 @@ namespace CsAnilist.Services.Query
                 coverImage {
                     large
                     medium
+                    extraLarge
+                    color
                 }
                 bannerImage
                 averageScore
