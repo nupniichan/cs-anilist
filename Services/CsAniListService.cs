@@ -41,7 +41,7 @@ namespace CsAnilist.Services
             return await ExecuteQueryAsync(query, variables, _apiClient.GetStaffAsync);
         }
 
-        public async Task<AniMedia> SearchMediaByIdAsync(int id, MediaType mediaType, bool descriptionAsHtml = true)
+        public async Task<AniMedia> SearchMedia(int id, MediaType mediaType, bool descriptionAsHtml = true)
         {
             string query = mediaType == MediaType.ANIME ? AniQuery.AnimeIDQuery : AniQuery.MangaIDQuery;
             var variables = new
@@ -54,7 +54,7 @@ namespace CsAnilist.Services
             return await ExecuteQueryAsync(query, variables, _apiClient.GetMediaAsync);
         }
 
-        public async Task<AniMedia> SearchMediaByNameAsync(string name, MediaType mediaType, bool descriptionAsHtml = true)
+        public async Task<AniMedia> SearchMedia(string name, MediaType mediaType, bool descriptionAsHtml = true)
         {
             string query = mediaType == MediaType.ANIME ? AniQuery.AnimeNameQuery : AniQuery.MangaNameQuery;
             var variables = new
