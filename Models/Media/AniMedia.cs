@@ -21,13 +21,25 @@ namespace CsAnilist.Models.Media
         public string? bannerImage { get; set; }
         public int? averageScore { get; set; }
         public int? meanScore { get; set; }
+        public int? popularity { get; set; }
+        public int? trending { get; set; }
         public string? season { get; set; }
+        public int? seasonYear { get; set; }
         public List<string>? genres { get; set; }
+        public List<string>? synonyms { get; set; }
         public string? source { get; set; }
+        public string? hashtag { get; set; }
+        public string? countryOfOrigin { get; set; }
+        public bool? isAdult { get; set; }
         public string? siteUrl { get; set; }
         public int? duration { get; set; }
         public AiringSchedule? airingSchedule { get; set; }
-        public int favourites { get; set; }
+        public NextAiringEpisode? nextAiringEpisode { get; set; }
+        public MediaStudio? studios { get; set; }
+        public MediaCharacters? characters { get; set; }
+        public int? favourites { get; set; }
+        public List<MediaTag>? tags { get; set; }
+        public MediaRelation? relations { get; set; }
         public MediaTrailer? trailer { get; set; }
     }
 }

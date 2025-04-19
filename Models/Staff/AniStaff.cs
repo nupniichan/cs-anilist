@@ -10,5 +10,7 @@
         public string? gender { get; set; }
         public string? homeTown { get; set; }
         public int favourites { get; set; }
+        public StaffCharacters? characters { get; set; }
+        public StaffMedia? staffMedia { get; set; }
     }
 }

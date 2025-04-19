@@ -11,6 +11,7 @@
                     romaji
                     english
                     native
+                    userPreferred
                 }
                 type
                 format
@@ -27,6 +28,7 @@
                     day
                 }
                 episodes
+                duration
                 chapters
                 volumes
                 coverImage {
@@ -38,23 +40,105 @@
                 bannerImage
                 averageScore
                 meanScore
+                popularity
+                trending
                 season
+                seasonYear
                 genres
+                synonyms
                 source
+                hashtag
+                countryOfOrigin
+                isAdult
                 siteUrl
-                duration
                 airingSchedule(page: 1, perPage: 1, notYetAired: true) {
                   nodes {
                     episode
                     timeUntilAiring
+                    airingAt
                   }
                 }
                 trailer{
-                    id,
-                    site,
+                    id
+                    site
                     thumbnail
                 }
+                nextAiringEpisode {
+                  airingAt
+                  timeUntilAiring
+                  episode
+                }
+                studios(isMain: true) {
+                  edges {
+                    isMain
+                    node {
+                      id
+                      name
+                      isAnimationStudio
+                    }
+                  }
+                }
+                characters(page: 1, perPage: 10, sort: ROLE) {
+                  edges {
+                    role
+                    node {
+                      id
+                      name {
+                        first
+                        last
+                        native
+                        alternative
+                      }
+                      image {
+                        large
+                        medium
+                      }
+                      gender
+                      dateOfBirth {
+                        year
+                        month
+                        day
+                      }
+                      favourites
+                    }
+                    voiceActors(language: JAPANESE) {
+                      id
+                      name {
+                        first
+                        last
+                        native
+                      }
+                      image {
+                        large
+                        medium
+                      }
+                      language
+                    }
+                  }
+                }
                 favourites
+                tags {
+                  id
+                  name
+                  rank
+                  isMediaSpoiler
+                }
+                relations {
+                  edges {
+                    relationType
+                    node {
+                      id
+                      title {
+                        romaji
+                        english
+                        native
+                      }
+                      format
+                      type
+                      status
+                    }
+                  }
+                }
             }
         }";
         public const string AnimeNameQuery =
@@ -66,6 +150,7 @@
                     romaji
                     english
                     native
+                    userPreferred
                 }
                 type
                 format
@@ -82,6 +167,7 @@
                     day
                 }
                 episodes
+                duration
                 chapters
                 volumes
                 coverImage {
@@ -93,23 +179,105 @@
                 bannerImage
                 averageScore
                 meanScore
+                popularity
+                trending
                 season
+                seasonYear
                 genres
+                synonyms
                 source
+                hashtag
+                countryOfOrigin
+                isAdult
                 siteUrl
-                duration
                 airingSchedule(page: 1, perPage: 1, notYetAired: true) {
                   nodes {
                     episode
                     timeUntilAiring
+                    airingAt
                   }
                 }
                 trailer{
-                    id,
-                    site,
+                    id
+                    site
                     thumbnail
                 }
+                nextAiringEpisode {
+                  airingAt
+                  timeUntilAiring
+                  episode
+                }
+                studios(isMain: true) {
+                  edges {
+                    isMain
+                    node {
+                      id
+                      name
+                      isAnimationStudio
+                    }
+                  }
+                }
+                characters(page: 1, perPage: 10, sort: ROLE) {
+                  edges {
+                    role
+                    node {
+                      id
+                      name {
+                        first
+                        last
+                        native
+                        alternative
+                      }
+                      image {
+                        large
+                        medium
+                      }
+                      gender
+                      dateOfBirth {
+                        year
+                        month
+                        day
+                      }
+                      favourites
+                    }
+                    voiceActors(language: JAPANESE) {
+                      id
+                      name {
+                        first
+                        last
+                        native
+                      }
+                      image {
+                        large
+                        medium
+                      }
+                      language
+                    }
+                  }
+                }
                 favourites
+                tags {
+                  id
+                  name
+                  rank
+                  isMediaSpoiler
+                }
+                relations {
+                  edges {
+                    relationType
+                    node {
+                      id
+                      title {
+                        romaji
+                        english
+                        native
+                      }
+                      format
+                      type
+                      status
+                    }
+                  }
+                }
             }
         }";
         public const string MangaIDQuery = @"
@@ -121,6 +289,7 @@
                     romaji
                     english
                     native
+                    userPreferred
                 }
                 type
                 format
@@ -147,10 +316,74 @@
                 bannerImage
                 averageScore
                 meanScore
+                popularity
+                trending
                 season
+                seasonYear
                 genres
+                synonyms
                 source
+                hashtag
+                countryOfOrigin
+                isAdult
                 siteUrl
+                studios(isMain: true) {
+                  edges {
+                    isMain
+                    node {
+                      id
+                      name
+                    }
+                  }
+                }
+                characters(page: 1, perPage: 10, sort: ROLE) {
+                  edges {
+                    role
+                    node {
+                      id
+                      name {
+                        first
+                        last
+                        native
+                        alternative
+                      }
+                      image {
+                        large
+                        medium
+                      }
+                      gender
+                      dateOfBirth {
+                        year
+                        month
+                        day
+                      }
+                      favourites
+                    }
+                  }
+                }
+                favourites
+                tags {
+                  id
+                  name
+                  rank
+                  isMediaSpoiler
+                }
+                relations {
+                  edges {
+                    relationType
+                    node {
+                      id
+                      title {
+                        romaji
+                        english
+                        native
+                      }
+                      format
+                      type
+                      status
+                    }
+                  }
+                }
             }
         }";
 
@@ -163,6 +396,7 @@
                     romaji
                     english
                     native
+                    userPreferred
                 }
                 type
                 format
@@ -189,10 +423,74 @@
                 bannerImage
                 averageScore
                 meanScore
+                popularity
+                trending
                 season
+                seasonYear
                 genres
+                synonyms
                 source
+                hashtag
+                countryOfOrigin
+                isAdult
                 siteUrl
+                studios(isMain: true) {
+                  edges {
+                    isMain
+                    node {
+                      id
+                      name
+                    }
+                  }
+                }
+                characters(page: 1, perPage: 10, sort: ROLE) {
+                  edges {
+                    role
+                    node {
+                      id
+                      name {
+                        first
+                        last
+                        native
+                        alternative
+                      }
+                      image {
+                        large
+                        medium
+                      }
+                      gender
+                      dateOfBirth {
+                        year
+                        month
+                        day
+                      }
+                      favourites
+                    }
+                  }
+                }
+                favourites
+                tags {
+                  id
+                  name
+                  rank
+                  isMediaSpoiler
+                }
+                relations {
+                  edges {
+                    relationType
+                    node {
+                      id
+                      title {
+                        romaji
+                        english
+                        native
+                      }
+                      format
+                      type
+                      status
+                    }
+                  }
+                }
             }
         }";
         public const string CharacterSearchQuery =
@@ -237,6 +535,55 @@
     		  gender
     		  homeTown
               favourites
+              characters(page: 1, perPage: 10, sort: FAVOURITES_DESC) {
+                edges {
+                  id
+                  role
+                  node {
+                    id
+                    name {
+                      first
+                      last
+                      native
+                    }
+                    image {
+                      large
+                      medium
+                    }
+                    media(perPage: 1) {
+                      nodes {
+                        id
+                        title {
+                          romaji
+                          english
+                          native
+                        }
+                        type
+                        format
+                      }
+                    }
+                  }
+                }
+              }
+              staffMedia(page: 1, perPage: 10, sort: POPULARITY_DESC) {
+                edges {
+                  id
+                  staffRole
+                  node {
+                    id
+                    title {
+                      romaji
+                      english
+                      native
+                    }
+                    type
+                    format
+                    coverImage {
+                      medium
+                    }
+                  }
+                }
+              }
             }
         }";
         public const string StudioSearchQuery =
@@ -245,7 +592,23 @@
                name 
                siteUrl
                favourites
-           }
+               media(perPage: 10, sort: POPULARITY_DESC) {
+                 nodes {
+                   id
+                   title {
+                     romaji
+                     english
+                     native
+                   }
+                   type
+                   format
+                   seasonYear
+                   coverImage {
+                     medium
+                   }
+                 }
+               }
+            }
         }";
         public const string UserSearchQuery =
         @"query($name: String, $asHtml: Boolean){

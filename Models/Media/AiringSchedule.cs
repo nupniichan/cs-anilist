@@ -8,5 +8,6 @@
     {
         public int episode { get; set; }
         public int timeUntilAiring { get; set; }
+        public int airingAt { get; set; }
     }
 }
