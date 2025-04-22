@@ -1,4 +1,4 @@
-# cs-anilist (Csharp AniList Library)
+# cs-anilist (Csharp AniList Library Unofficial)
 
 A simple C# library for getting with the [AniList GraphQL API](https://anilist.co/graphiql), designed for quick access to anime, manga, characters, staff, studios, and user information.
 
