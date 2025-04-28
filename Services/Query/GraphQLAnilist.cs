@@ -1,6 +1,8 @@
 ﻿using System.Net.Http.Headers;
+using CsAnilist.Models;
 using CsAnilist.Models.Character;
 using CsAnilist.Models.Media;
+using CsAnilist.Models.MediaList;
 using CsAnilist.Models.Staff;
 using CsAnilist.Models.Studio;
 using CsAnilist.Models.User;
@@ -25,14 +27,21 @@ public class GraphQLAnilist
             variables = variables
         };
 
-        var jsonContent = JsonConvert.SerializeObject(requestBody);
+        var jsonSettings = new JsonSerializerSettings
+        {
+            NullValueHandling = NullValueHandling.Ignore,
+            Formatting = Formatting.None
+        };
+
+        var jsonContent = JsonConvert.SerializeObject(requestBody, jsonSettings);
         var httpContent = new StringContent(jsonContent);
         httpContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
 
         var response = await _client.PostAsync(graphQLUrl, httpContent);
-        response.EnsureSuccessStatusCode();
-
         var responseBody = await response.Content.ReadAsStringAsync();
+        
+        response.EnsureSuccessStatusCode();
+        
         var jsonResponse = JObject.Parse(responseBody);
 
         var dataJson = jsonResponse["data"]?[dataField];
@@ -67,5 +76,15 @@ public class GraphQLAnilist
     public Task<AniUser> GetUserAsync(string query, object variables)
     {
         return PostAsync<AniUser>(query, variables, "User");
+    }
+
+    public Task<T> GetPagedDataAsync<T>(string query, object variables)
+    {
+        return PostAsync<T>(query, variables, "Page");
+    }
+
+    public Task<MediaListCollection> GetMediaListCollectionAsync(string query, object variables)
+    {
+        return PostAsync<MediaListCollection>(query, variables, "MediaListCollection");
     }
 }

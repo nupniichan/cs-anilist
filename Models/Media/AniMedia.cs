@@ -1,16 +1,15 @@
-﻿using CsAnilist.AnilistAPI.Enum;
-using CsAnilist.Models.Enums;
+﻿using CsAnilist.Models.Enums;
 
 namespace CsAnilist.Models.Media
 {
     public class AniMedia
     {
         public int id { get; set; }
-        public int idMal { get; set; }
+        public int? idMal { get; set; }
         public Title? title { get; set; }
-        public string? type { get; set; }
-        public MediaFormat format { get; set; }
-        public MediaStatus status { get; set; }
+        public MediaType? type { get; set; }
+        public MediaFormat? format { get; set; }
+        public MediaStatus? status { get; set; }
         public string? description { get; set; }
         public StartDate? startDate { get; set; }
         public EndDate? endDate { get; set; }
@@ -23,11 +22,11 @@ namespace CsAnilist.Models.Media
         public int? meanScore { get; set; }
         public int? popularity { get; set; }
         public int? trending { get; set; }
-        public string? season { get; set; }
+        public MediaSeason? season { get; set; }
         public int? seasonYear { get; set; }
         public List<string>? genres { get; set; }
         public List<string>? synonyms { get; set; }
-        public string? source { get; set; }
+        public MediaSource? source { get; set; }
         public string? hashtag { get; set; }
         public string? countryOfOrigin { get; set; }
         public bool? isAdult { get; set; }

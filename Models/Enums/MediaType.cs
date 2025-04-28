@@ -1,4 +1,4 @@
-﻿namespace CsAnilist.AnilistAPI.Enum
+﻿namespace CsAnilist.Models.Enums
 {
     public enum MediaType
     {

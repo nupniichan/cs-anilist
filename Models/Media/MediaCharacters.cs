@@ -1,4 +1,4 @@
-using CsAnilist.Models.Character;
+using CsAnilist.Models.Enums;
 
 namespace CsAnilist.Models.Media
 {
@@ -9,7 +9,7 @@ namespace CsAnilist.Models.Media
 
     public class CharacterEdge
     {
-        public string role { get; set; }
+        public CharacterRole role { get; set; }
         public CharacterNode node { get; set; }
         public List<VoiceActor>? voiceActors { get; set; }
     }
