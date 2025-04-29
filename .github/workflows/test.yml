@@ -1,0 +1,63 @@
+name: Tests stage
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'cs-anilist/**'
+      - 'cs-anilist.test/**'
+  pull_request:
+    branches: [ main ]
+    paths:
+      - 'cs-anilist/**'
+      - 'cs-anilist.test/**'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+      
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 9.0.x 
+    
+    - name: Display workspace info
+      run: |
+        echo "GitHub workspace: ${{ github.workspace }}"
+        echo "Repository: ${{ github.repository }}"
+        echo "Branch: ${{ github.ref }}"
+        echo "Commit: ${{ github.sha }}"
+        ls -la
+        
+    - name: Restore dependencies
+      run: dotnet restore ${{ github.workspace }}/cs-anilist.test/cs-anilist.test.csproj
+      
+    - name: Build
+      run: dotnet build ${{ github.workspace }}/cs-anilist.test/cs-anilist.test.csproj --no-restore --configuration Release
+      
+    - name: Test with detailed logging
+      id: test
+      run: |
+        dotnet test ${{ github.workspace }}/cs-anilist.test/cs-anilist.test.csproj \
+          --no-build \
+          --configuration Release \
+          --logger:"console;verbosity=detailed" \
+          --logger:"trx;LogFileName=test-results.trx" \
+          --results-directory:${{ github.workspace }}/TestResults
+      
+    - name: Upload test results
+      uses: actions/upload-artifact@v3
+      if: always() 
+      with:
+        name: test-results
+        path: ${{ github.workspace }}/TestResults
+        
+    - name: Publish Test Results
+      uses: EnricoMi/publish-unit-test-result-action@v2
+      if: always()
+      with:
+        files: ${{ github.workspace }}/TestResults/**/*.trx
