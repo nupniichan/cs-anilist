@@ -1,73 +1,60 @@
-name: Auto Publish NuGet
-
+name: Publish to nuget when tag is created
 on:
   push:
     tags:
       - 'v*.*.*'  
-
 jobs:
   publish:
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v3
-
+    
     - name: Setup .NET 9
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: '9.0.x'
-
-    - name: Read current version from tag
-      id: version
+    
+    - name: Extract version from tag
+      id: get_version
       run: |
         TAG_NAME="${GITHUB_REF##*/}"  
         echo "Tag name: $TAG_NAME"
         
-        IFS='.' read -r MAJOR MINOR PATCH <<< "${TAG_NAME:1}"  
-        echo "Current version from tag: $MAJOR.$MINOR.$PATCH"
-        
-        PATCH=$((PATCH + 1))
-        NEW_VERSION="$MAJOR.$MINOR.$PATCH"
-        echo "New version: $NEW_VERSION"
-        echo "VERSION=$NEW_VERSION" >> $GITHUB_ENV
-
-    - name: Check and Update version in cs-anilist.csproj
+        VERSION="${TAG_NAME:1}"
+        echo "Version from tag: $VERSION"
+        echo "VERSION=$VERSION" >> $GITHUB_ENV
+    
+    - name: Check version in cs-anilist.csproj
+      id: check_version
       run: |
-        TAG_NAME="${GITHUB_REF##*/}"  
-        echo "Tag name: $TAG_NAME"
+        FILE="cs-anilist/cs-anilist.csproj"
+        if [ ! -f "$FILE" ]; then
+          echo "Error: File $FILE not found!"
+          exit 1
+        fi
         
-        IFS='.' read -r MAJOR MINOR PATCH <<< "${TAG_NAME:1}"  
-        echo "Current version from tag: $MAJOR.$MINOR.$PATCH"
-        FILE="cs-anilist.csproj"
-        
-        CURRENT_VERSION=$(grep -oPm1 "(?<=<Version>)[^<]+" "$FILE")
+        CURRENT_VERSION=$(grep -oPm1 "(?<=<Version>)[^<]+" "$FILE" || echo "not found")
         echo "Current version in cs-anilist.csproj: $CURRENT_VERSION"
         
-        if [[ "$CURRENT_VERSION" != "$MAJOR.$MINOR.$PATCH" ]]; then
-          echo "Version mismatch, updating version in cs-anilist.csproj..."
-          sed -i "s|<Version>.*</Version>|<Version>$MAJOR.$MINOR.$PATCH</Version>|" "$FILE"
-          git config --global user.email "actions@github.com"
-          git config --global user.name "GitHub Actions"
-          git checkout -b update-version
-          git add cs-anilist.csproj
-          git commit -m "Auto bump version .csproj file to $MAJOR.$MINOR.$PATCH"
-          git push origin update-version
+        if [[ "$CURRENT_VERSION" != "$VERSION" ]]; then
+          echo "Version mismatch! Tag version: $VERSION, Project version: $CURRENT_VERSION"
+          echo "Please update the project version to match the tag before publishing."
+          exit 1
         else
-          echo "Version already up-to-date, no update needed."
+          echo "Version check passed. Tag and project versions match: $VERSION"
         fi
-
-    - name: Create pull request
-      run: |
-        TAG_NAME="${GITHUB_REF##*/}"
-        curl -X POST -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-          -d '{"title":"Auto bump version to '"$TAG_NAME"'","head":"update-version","base":"main"}' \
-          https://api.github.com/repos/${{ github.repository }}/pulls
-
-    - name: Build & Pack
-      run: |
-        dotnet restore
-        dotnet build --configuration Release --no-restore
-        dotnet pack --configuration Release --no-build -o ./nupkgs
-
+    
+    - name: Restore dependencies
+      run: dotnet restore cs-anilist/cs-anilist.csproj
+      
+    - name: Build
+      run: dotnet build cs-anilist/cs-anilist.csproj --configuration Release --no-restore
+    
+    - name: Run tests
+      run: dotnet test cs-anilist.test/cs-anilist.test.csproj --configuration Release --no-build
+      
+    - name: Pack
+      run: dotnet pack cs-anilist/cs-anilist.csproj --configuration Release --no-build -o ./nupkgs
+    
     - name: Push to NuGet
       run: dotnet nuget push ./nupkgs/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json
