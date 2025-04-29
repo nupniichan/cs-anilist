@@ -20,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\cs-anilist\cs-anilist.csproj" />
+    <ProjectReference Include="..\cs-anilist\cs-anilist.csproj" />
   </ItemGroup>
 
   <ItemGroup>
