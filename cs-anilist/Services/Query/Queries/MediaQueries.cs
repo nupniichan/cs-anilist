@@ -1,6 +1,6 @@
-﻿namespace CsAnilist.Services.Query
+namespace CsAnilist.Services.Query.Queries
 {
-    public static class AniQuery
+    public static class MediaQueries
     {
         public const string AnimeIDQuery =
         @"query ($id: Int, $type: MediaType, $asHtml: Boolean){
@@ -141,6 +141,7 @@
                 }
             }
         }";
+
         public const string AnimeNameQuery =
         @"query ($search: String, $type: MediaType, $asHtml: Boolean){
             Media(search: $search, type: $type) {
@@ -280,6 +281,7 @@
                 }
             }
         }";
+
         public const string MangaIDQuery = @"
         query ($id: Int, $type: MediaType, $asHtml: Boolean){
             Media(id: $id, type: $type) {
@@ -493,217 +495,84 @@
                 }
             }
         }";
-        public const string CharacterSearchQuery =
-        @"query ($search: String, $asHtml: Boolean){
-              Character(search: $search) {
-                  name {
-                      first
-                      last
-                      native
-                      alternative
-                  }
-                  description(asHtml: $asHtml)
-                  image {
-                      large
-                      medium
-                  }
-                  dateOfBirth {
-    				  year
-    				  month
-    				  day
-    			  }
-                  gender
-                  siteUrl
-                  favourites
-              }
-        }";
-        public const string StaffSearchQuery =
-        @"query ($search: String, $asHtml: Boolean){
-            Staff(search: $search) {
-              name {
-                first
-                last
-                native
-              }
-              languageV2
-              image {
-                 large
-                 medium
-              }
-              description(asHtml: $asHtml)
-              siteUrl
-    		  gender
-    		  homeTown
-              favourites
-              characters(page: 1, perPage: 10, sort: FAVOURITES_DESC) {
-                edges {
-                  id
-                  role
-                  node {
-                    id
-                    name {
-                      first
-                      last
-                      native
-                    }
-                    image {
-                      large
-                      medium
-                    }
-                    media(perPage: 1) {
-                      nodes {
-                        id
-                        title {
-                          romaji
-                          english
-                          native
-                        }
-                        type
-                        format
-                      }
-                    }
-                  }
+
+        public const string MediaTrendQuery =
+        @"query ($mediaId: Int!) {
+            Media(id: $mediaId) {
+                id
+                title {
+                    romaji
+                    english
+                    native
+                    userPreferred
                 }
-              }
-              staffMedia(page: 1, perPage: 10, sort: POPULARITY_DESC) {
-                edges {
-                  id
-                  staffRole
-                  node {
+                format
+                status
+                description
+                episodes
+                duration
+                chapters
+                volumes
+                coverImage {
+                    large
+                    medium
+                }
+                bannerImage
+                averageScore
+                meanScore
+                popularity
+                trending
+                favourites
+                siteUrl
+                nextAiringEpisode {
+                    airingAt
+                    timeUntilAiring
+                    episode
+                }
+            }
+        }";
+
+        public const string AllMediaTrendsQuery =
+        @"query ($page: Int, $perPage: Int, $type: MediaType) {
+            Page(page: $page, perPage: $perPage) {
+                pageInfo {
+                    total
+                    perPage
+                    currentPage
+                    lastPage
+                    hasNextPage
+                }
+                media(sort: TRENDING_DESC, type: $type) {
                     id
                     title {
-                      romaji
-                      english
-                      native
+                        romaji
+                        english
+                        native
+                        userPreferred
                     }
                     type
                     format
+                    status
+                    episodes
+                    chapters
+                    volumes
                     coverImage {
-                      medium
+                        large
+                        medium
                     }
-                  }
-                }
-              }
-            }
-        }";
-        public const string StudioSearchQuery =
-        @"query ($search: String){
-            Studio(search: $search) {
-               name 
-               siteUrl
-               favourites
-               media(perPage: 10, sort: POPULARITY_DESC) {
-                 nodes {
-                   id
-                   title {
-                     romaji
-                     english
-                     native
-                   }
-                   type
-                   format
-                   seasonYear
-                   coverImage {
-                     medium
-                   }
-                 }
-               }
-            }
-        }";
-        public const string UserSearchQuery =
-        @"query($name: String, $asHtml: Boolean){
-            User(name: $name){
-            id
-            name
-            avatar {
-                large
-                medium
-            }
-            bannerImage
-            about (asHtml: $asHtml)
-            favourites {
-                anime {
-                    nodes {
-                        id
-                        title {
-                            romaji
-                            english
-                            native
-                            userPreferred
-                        }
-                        siteUrl
+                    averageScore
+                    popularity
+                    trending
+                    favourites
+                    season
+                    seasonYear
+                    nextAiringEpisode {
+                        airingAt
+                        timeUntilAiring
+                        episode
                     }
                 }
-                manga {
-                    nodes {
-                        id
-                        title {
-                            romaji
-                            english
-                            native
-                            userPreferred
-                        }
-                        siteUrl
-                    }
-                }
-                characters {
-                    nodes {
-                        id
-                        name {
-                            first
-                            last
-                        }
-                        siteUrl
-                        image {
-                            large
-                        }
-                    }
-                }
-                staff {
-                    nodes {
-                        name {
-                            first
-                            last
-                            native
-                        }
-                        siteUrl
-                    }
-                }
-                studios {
-                    nodes {
-                        name
-                        siteUrl
-                    }
-                }
-            }
-            statistics {
-                anime {
-                    count
-                    minutesWatched
-                    episodesWatched
-                    meanScore
-                    statuses {
-                        status
-                        count
-                        meanScore
-                        chaptersRead
-                    }
-                }
-                manga {
-                    count
-                    volumesRead
-                    chaptersRead
-                    meanScore
-                    statuses {
-                        status
-                        count
-                        meanScore
-                        chaptersRead
-                    }
-                }
-            }
-            siteUrl
             }
         }";
     }
-}
+} 

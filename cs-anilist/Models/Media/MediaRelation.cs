@@ -1,3 +1,5 @@
+using CsAnilist.Models.Enums;
+
 namespace CsAnilist.Models.Media
 {
     public class MediaRelation
@@ -7,7 +9,7 @@ namespace CsAnilist.Models.Media
 
     public class MediaEdge
     {
-        public string relationType { get; set; }
+        public Enums.MediaRelation relationType { get; set; }
         public MediaNode node { get; set; }
     }
 
@@ -15,8 +17,8 @@ namespace CsAnilist.Models.Media
     {
         public int id { get; set; }
         public Title title { get; set; }
-        public string format { get; set; }
-        public string type { get; set; }
-        public string status { get; set; }
+        public MediaFormat? format { get; set; }
+        public MediaType type { get; set; }
+        public MediaStatus status { get; set; }
     }
 } 
