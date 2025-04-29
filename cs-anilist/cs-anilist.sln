@@ -4,7 +4,7 @@ VisualStudioVersion = 17.5.2.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "cs-anilist", "cs-anilist.csproj", "{83E8024C-E9A9-FD75-0C64-79C0BB98AC45}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "cs-anilist.test", "..\cs-anilist.test\cs-anilist.test\cs-anilist.test.csproj", "{12534B2B-57A3-439D-9A40-5610C753A04D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "cs-anilist.test", "..\cs-anilist.test\cs-anilist.test.csproj", "{12534B2B-57A3-439D-9A40-5610C753A04D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
