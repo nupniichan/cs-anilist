@@ -29,12 +29,12 @@ Clone this repository or download the ZIP and extract it.
 Add the project to your solution:
 
 - In Visual Studio, right-click your solution > Add > Existing Project...
-- Select the CsAnilist.csproj file.
+- Select the cs-anilist.csproj file.
 
 Add a project reference:
 
 - Right-click your main project > Add > Reference...
-- Check the box for CsAnilist, then click OK.
+- Check the box for cs-anilist, then click OK.
 
 ## 🛠️ Usage
 1. Initialize the client
@@ -56,6 +56,7 @@ var manga = await client.SearchMedia("Is the order a rabbit?", MediaType.MANGA);
 
 // Search by ID
 var animeById = await client.SearchMedia(4181, MediaType.ANIME);
+
 // Note: Manga is the same but you need to change MediaType to MediaType.Manga
 
 // Search character by name
@@ -86,11 +87,17 @@ var userById = await client.SearchUserAsync(5660278);
 3. Pagination Support
 
 ```csharp
-// Get paged anime results
+// Get paged anime results with search
 var animeResults = await client.GetPagedMediaAsync(1, 10, MediaType.ANIME, "Kyoto Animation");
+
+// Get paged anime results with custom sorting
+var sortedAnime = await client.GetPagedMediaAsync(1, 10, MediaType.ANIME, "romance", MediaSort.SCORE_DESC.ToString());
 
 // Get paged character results
 var characterResults = await client.GetPagedCharactersAsync(1, 5, "Miku");
+
+// Get paged character results with custom sorting
+var sortedCharacters = await client.GetPagedCharactersAsync(1, 5, "Chino", MediaSort.FAVOURITES_DESC.ToString());
 
 // Get paged staff results
 var staffResults = await client.GetPagedStaffAsync(1, 5, "Koi");
@@ -98,8 +105,11 @@ var staffResults = await client.GetPagedStaffAsync(1, 5, "Koi");
 // Get paged studio results
 var studioResults = await client.GetPagedStudiosAsync(1, 5, "Key", MediaSort.SEARCH_MATCH.ToString());
 
-// Simplified paged media query (without search and using default sort)
-var simplePagedResults = await client.GetPagedMediaAsync(1, 10, MediaType.ANIME, MediaSort.SEARCH_MATCH.ToString());
+// Simplified paged media query (without search, using default sort)
+var simplePagedResults = await client.GetPagedMediaAsync(1, 10, MediaType.ANIME);
+
+// Get paged results with HTML descriptions disabled
+var pagedWithPlainText = await client.GetPagedMediaAsync(1, 10, MediaType.ANIME, "action", MediaSort.POPULARITY_DESC.ToString(), descriptionAsHtml: false);
 ```
 
 4. Media Trends and User Lists
@@ -125,6 +135,9 @@ var userMangaListString = await client.GetUserMediaListAsync(userName: "nupniich
 
 // Get user's list by user ID
 var userListById = await client.GetUserMediaListAsync(userId: 5660278, mediaType: MediaType.ANIME);
+
+// Get user's list with specific status
+var userWatchingList = await client.GetUserMediaListAsync(userName: "nupniichan", mediaType: MediaType.ANIME, status: MediaListStatus.CURRENT);
 ```
 
 5. Accessing Media Data
@@ -136,7 +149,7 @@ Console.WriteLine($"Type: {anime.type}, Format: {anime.format}, Status: {anime.s
 Console.WriteLine($"Episodes: {anime.episodes}, Duration: {anime.duration} minutes");
 Console.WriteLine($"Score: {anime.averageScore}/100");
 
-// Get list of anime's character
+// Get list of anime's characters
 if (anime.characters?.edges != null) 
 {
     foreach (var character in anime.characters.edges)
@@ -155,7 +168,7 @@ if (anime.characters?.edges != null)
     }
 }
 
-// Get Studio made it
+// Get studios that created it
 if (anime.studios?.edges != null)
 {
     foreach (var studio in anime.studios.edges)
@@ -222,16 +235,16 @@ class Program
                 }
             }
             
-            // Get paginated results for a broader search
-            var searchResults = await client.GetPagedMediaAsync(1, 5, MediaType.ANIME, "rabbit");
-            Console.WriteLine($"\nFound {searchResults.pageInfo.total} anime containing 'rabbit':");
+            // Get paginated results for a broader search with custom sorting
+            var searchResults = await client.GetPagedMediaAsync(1, 5, MediaType.ANIME, "rabbit", MediaSort.POPULARITY_DESC.ToString());
+            Console.WriteLine($"\nFound {searchResults.pageInfo.total} anime containing 'rabbit' (sorted by popularity):");
             
             foreach (var media in searchResults.media)
             {
-                Console.WriteLine($" - {media.title.romaji}");
+                Console.WriteLine($" - {media.title.romaji} (Score: {media.averageScore}/100)");
             }
             
-            // Get all anime trends from page 1
+            // Get trending anime
             var trends = await client.GetAllMediaTrendsAsync(MediaType.ANIME, 1, 3);
             Console.WriteLine($"\nRecent Trending Anime:");
             
@@ -239,6 +252,10 @@ class Program
             {
                 Console.WriteLine($" - {trend.media.title.romaji} (Trending score: {trend.trending})");
             }
+            
+            // Get user's completed anime list
+            var userList = await client.GetUserMediaListAsync(userName: "nupniichan", mediaType: MediaType.ANIME, status: MediaListStatus.COMPLETED);
+            Console.WriteLine($"\nCompleted anime count: {userList.lists?.FirstOrDefault()?.entries?.Count ?? 0}");
         }
         catch (Exception ex)
         {
